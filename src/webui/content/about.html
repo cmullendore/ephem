@@ -1,0 +1,75 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Welcome to EPHEM</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="pragma" content="no-cache" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/normalize.css" />
+</head>
+
+<body>
+  <p>EPHEM allows you to securely share confidential information easily.</p>
+  <hr />
+  <div style="text-align: left;">
+  <h2>About EPHEM</h2>
+  <h3>What happens when I submit my secret?</h3>
+  <ol>
+    <li>A completely random binary 256 bit key is generated.</li>
+    <li>The secret is encrypted using this key and AES-256 encryption, currently considered one of the strongest encryption available.</li>
+    <li>The AES key is converted to a Base64 string and the final URL is created to include this key.</li>
+    <li>The URL path to the secret, including the AES key, is hashed using SHA512, the currently considered one of the strongest non-reversible hashing algorythm available.</li>
+    <li>The hashed path and encrypted secret are stored in a database, along with the settings for number of retrievals and lifetime.</li>
+    <li>The generated URL is returned to the UI for you to copy and forgotten by the application. The un-hashed URL path/key and the secret are never, ever, persisted in their raw form.</li>
+  </ol>
+  <h3>What happens when I use this generated URL to retrieve my secret?</h3>
+  <ol>
+    <li>The URL is hashed using SHA512 and retrieved from the database using this hash and the number of reads is incremented.</li>
+    <li>The AES key is extracted from the URL and converted back into a binary key.</li>
+    <li>The secret is decrypted using this binary key.</li>
+    <li>The decrypted secret is returned to the UI.</li>
+    <li>Within 1 second the secret is purged from the database.</li>
+  </ol>
+  <h3>If the URL is the key, how can I share the URL?</h3>
+  <p>Any standard, <i>reasonably</i> private communication mechanism should be fine, such as email or slack. It is your responsibility to ensure that the URL is targeted to the appropriate individual or group for retrieval.</p>
+  <h3>Can I get a shorter URL?</h3>
+  <p>No. The URL contains the <i>complete</i> encryption key and path to your secret. Using a URL shortener <i>implies</i> that the shortened URL references the complete URL which is then persisted... somewhere. Use of a URL shortener is strongly discouraged. We reserve the right to intentionally block this type of behavior in a future release.</p>
+  <h3>Can I test the URL to ensure that the secret can be retrieved?</h3>
+  <p>NO. Using the URL for any purpose at all, including testing it, will count as the 1 read and the secret will be purged. This is by design.</p>
+  <h3>What if I lose the URL?</h3>
+  <p>Then the secret is lost, unretrievable, will be automatically purged completely within 24 hours.</p>
+  <h3>What if someone retrieves the database containing all of the secrets?</h3>
+  <p>Nothing in the database is stored in a retrievable format without the key specifically generated for that secret. The database itself is completely useless.</p>
+  <h3>What if the encryption key to the database is also compromised?</h3>
+  <p>There <i>is no</i> central or primary encryption key. This is a primary feature of EPHEM... Nothing is trusted. Not the application, not the database, not the administrators of the system. The secrets contained in the database are completely unretrievable without the randomly generated URL.</p>
+  <h3>What if someone gets the URL containing the key AND the database?</h3>
+  <p>As long as your intended recipient uses the URL first, the secret is no longer in the database anyway, so the secret is not compromised. If someone gets both the database AND the secret URL, which is an extremely unlikely race condition and scenario, then that particular secret is retrievable. No other secret can be decrypted or identified... all other secrets in the database are still secure.</p>
+  <h3>How do I know if the secret has been retrieved?</h3>
+  <p>Currently there is no notification of retrieval. This is being considered as a future feature.</p>
+  <h3>How can I ensure that only the intended recipient can use the URL?</h3>
+  <p>Currently there is no mechanism for tying a URL to a specific individual for retrieval. This is being considered as a future feature.</p>
+  <h3>How can I share my secret with multiple recipients?</h3>
+  <p>This is not possible using a single URL, by design. The secret may be submitted multiple times and each randomly generated URL may be sent to one of the intended recipients. Broader distribution of secrets should be done using an alternate approved mechanism such as 1Password or Vault.</p>
+  <h3>How can I share a file using EPHEM?</h3>
+  <p>This is being considered for a future release. Note that some files such as SSL certificates are frequently stored as simple text files. The contents of these files can be shared using EPHEM even if the file itself cannot be.</p>
+  <h3>Shouldn't we be using Vault for secrets?</h3>
+  <p>For repeat, programmatic access, YES, Vault is the correct solution. While there is a minor overlap with a specific Vault feature, Vault is not specifically designed for this kind of secrets sharing or management.</p>
+  <h3>How can I create a reusable URL that allows more than 1 retrieval?</h3>
+  <p>EPHEM is not intended for or configured to support this use case.</p>
+  <h3>Your UI is a little simplistic...</h3>
+  <p>Yes. We're not front-end devs and simple interfaces reduce maintenance cost and security concerns. This is somewhat by design.</p>
+  <h3>Where is the source code for EPHEM?</h3>
+  <p>The source is available at <a href="https://github.com/cmullendore/ephem">https://github.com/cmullendore/ephem</a>. Ephem (short form "Ephemeral") is the original project name for the secure backing store. EPHEM is the branded UI that utilizes that backing store.</p>
+  <h3>How can I help with this project?</h3>
+  <p>Feel free to clone the repo and submit pull requests containing your changes. We do reserve the right to reject changes that do not align with the intended use case for either EPHEM or Ephem. Please consider discussing your change with the InfoSec team before doing any work to ensure your change will be accepted.</p>
+  <h3>Is this project open source? Can it be?</h3>
+  <p>This is under consideration but will take some refinement of the code quality before we're ready to expose it to the world. But maybe.</p>
+</div>
+<hr />
+<p><a href="/about.html">About EPHEM</a></p>
+</body>
+
+</html>

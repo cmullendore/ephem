@@ -1,0 +1,13 @@
+{
+    "Vault": {
+        "Endpoint": {
+            "Type": "env",
+            "Value": "VAULT_ADDR"
+        },
+        "Token": {
+            "Type": "env",
+            "Value": "VAULT_TOKEN"
+        },
+        "WrapTTL": 86400
+    }
+}

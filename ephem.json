@@ -1,0 +1,15 @@
+{
+
+    "CleanupFrequency": "1s",
+    "MaxReads": 2,
+    "MaxAgeSeconds": 86400,
+    "Aes256KeySource": "URL",
+    "Database": {
+        "Driver": "mysql",
+        "Server": "localhost",
+        "Name": "ephem",
+        "Username": "ephem",
+        "Password": "P@ssw0rd"
+    }
+    
+}
