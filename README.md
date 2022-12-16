@@ -32,6 +32,9 @@ Simply stated, WebUI owns _user interactivity and URL generation_. It does not o
 
 In the current implementation, WebUI and Ephem are integrated in code (vs. simply separate components that interact over a standard protocol). However, with the correct configuration it should be possible to deploy just the GRPC API if desired.
 
+## Security Implementation Note
+The actual implementation of the core security aspects such as proper implementation and use of best practice APIs at this point cannot be guaranteed. Although Ephem does encryption and hashing as part of the implementation, perfect implementation of these things was _not_ the primary purpose of this project. The purpose was to learn the fundamentals of writing a functional Go application and a crypto tool was an interesting problem space to play with. Perfectly implementing cryptography within the application was not critical to the primary goal of simply learning Go.
+
 ## Objectives
 * Keep it simple. Do one thing, do it well, and do no more. Simplicity increases security. Whiz-bang should be avoided unless it provides direct functional value to the platform.
 * Maintain separation of layers. Allow each layer to completely own it's functionality and make the implementation of that functionality invisible to the caller.
